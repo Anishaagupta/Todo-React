@@ -10,7 +10,7 @@ function App() {
     <TaskListContextProvider>
       <div className='container'>
         <div className='app-wrapper'>
-          <Header/>
+          <Header />
           <div className='main'>
             <TaskForm />
             <TaskList />

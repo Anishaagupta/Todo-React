@@ -1,17 +1,56 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import { v1 as uuid } from 'uuid';
 
 export const TaskListContext = createContext();
 
 const TaskListContextProvider = (props) => {
-  const [tasks, setTask] = useState([
-    { title: 'Read a book', id: 1 },
-    { title: 'Have Dinner', id: 2 },
-    { title: 'Buy Vegetables', id: 3 },
-    { title: 'Code a program', id: 4 },
-    { title: 'Call a friend', id: 5 },
-  ]);
+  const initialState = JSON.parse(localStorage.getItem('tasks')) || [];
+  const [tasks, setTask] = useState(initialState);
+
+  const [editItem, setEditItem] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks), [tasks]);
+  });
+
+  const addTask = (title) => {
+    setTask([...tasks, { title, id: uuid() }]);
+  };
+
+  const removeTask = (id) => {
+    setTask(tasks.filter((task) => task.id !== id));
+  };
+
+  const clearList = () => {
+    setTask([]);
+  };
+
+  const findItem = (id) => {
+    const item = tasks.find((task) => task.id === id);
+    setEditItem(item);
+  };
+
+  const editTask = (title, id) => {
+    const newTasks = tasks.map((task) =>
+      task.id === id ? { title, id } : task
+    );
+
+    setTask(newTasks);
+    setEditItem(null);
+  };
+
   return (
-    <TaskListContext.Provider value={{ tasks }}>
+    <TaskListContext.Provider
+      value={{
+        tasks,
+        addTask,
+        removeTask,
+        clearList,
+        findItem,
+        editTask,
+        editItem,
+      }}
+    >
       {props.children}
     </TaskListContext.Provider>
   );
