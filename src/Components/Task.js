@@ -12,10 +12,7 @@ const Task = ({ task }) => {
           <i className='fas fa-pen'>Edit</i>
         </button>
 
-        <button
-          onClick={() => removeTask(task.id)}
-          className='btn-delete task-btn'
-        >
+        <button onClick={() => removeTask(task.id)} className='btn-delete task-btn'>
           <i className='fas fa-trash-alt'>Delete</i>
         </button>
       </div>

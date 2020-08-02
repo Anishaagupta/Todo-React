@@ -4,7 +4,9 @@ import { v1 as uuid } from 'uuid';
 export const TaskListContext = createContext();
 
 const TaskListContextProvider = (props) => {
+  
   const initialState = JSON.parse(localStorage.getItem('tasks')) || [];
+
   const [tasks, setTask] = useState(initialState);
 
   const [editItem, setEditItem] = useState(null);
